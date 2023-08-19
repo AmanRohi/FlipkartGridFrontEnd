@@ -7,18 +7,7 @@ function TransactionHistory() {
   const dispatch = useDispatch();
   const customer = useSelector((store) => store.customer);
 
-  const response = [
-    {
-      to: "0x06441b211a8729B40FE15955F9A58b2F5829d022",
-      from: "0x2b41f55CDE00d788b0de73767932f90507dB86ce",
-      transactionIndex: 29,
-      blockHash:
-        "0x52f308c89d7c61553f3025c812e4358c3599874a68007249cab16f4b0f778e0a",
-      transactionHash:
-        "0x3298be9395bb91b13345fef9dd43178b4715416f2f1e1fb06d80017fb4f97c03",
-      blockNumber: 4114085,
-    },
-  ];
+  const response = null;
   const getResponse = async () => {
     response = await axios.post(
       "https://flipkartbackend-un9n.onrender.com/getTransactionHistroy",
@@ -55,8 +44,6 @@ function TransactionHistory() {
             <h3 className=" px-3 py-1 bg-indigo-500 text-center text-white text-[20px] rounded-t-md">
               To : {transaction.to}
             </h3>
-            
-            
           </motion.div>
         ))}
       </div>

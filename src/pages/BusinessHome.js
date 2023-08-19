@@ -34,13 +34,12 @@ function BusinessHome() {
     connectWallet();
   }, []); // means at startup !!
 
-
   return (
     <div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
-      <div className="w-[42%] h-[52%] bg-white p-5 rounded-md ">
+      <div className="w-[50%] h-[60%] bg-white p-5 rounded-md ">
         <div className="flex justify-between bg-indigo-400 px-4 py-3 shadow-md shadow-gray-300 rounded-md">
-          <p className=" text-white text-[20px]">Business Name</p>
-          <p className=" text-white text-[20px]">Business Email</p>
+          <p className=" text-white text-[20px]">{response.name}</p>
+          <p className=" text-white text-[20px]">{response.email}</p>
         </div>
 
         <div className="mt-16">

@@ -6,16 +6,16 @@ import { useNavigate } from "react-router-dom";
 function CustomerHome() {
   const navigate = useNavigate();
   const customer = useSelector((store) => store.customer);
-  const response = {
-    firstName: "Aman",
-    userEmail: "aman.rohi@gamil.com",
-    loyaltyPoints: [{ business: { name: "flipkart" }, totalCount: 10 }],
-  };
+  const accessToken = customer.accessToken;
+  const response = null;
   const getResponse = async () => {
     response = await axios.post(
-      "https://flipkartbackend-un9n.onrender.com/getCustomerDetails",
+      "https://flipkartbackend-un9n.onrender.com/getUserDetails",
       {
-        user: customer.user,
+        headers: {
+          Authorization: "Bearer " + accessToken,
+          // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRkNDY3M2M2ODliMzRkMzY5ZmRlZGYiLCJyb2xlIjoiQ3VzdG9tZXIiLCJpYXQiOjE2OTIyMjMwOTF9.1WFN8JJAVQUkwFVr4a1GA1HfhyGFMFLPIoJHhLdeMpY`, // Provide your access token
+        },
       }
     );
   };
@@ -39,7 +39,7 @@ function CustomerHome() {
   useEffect(() => {
     connectWallet();
   }, []); // means at startup !!
-
+  console.log(response);
   return (
     <div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
       <div className="w-[42%] h-[90%] bg-white p-5 rounded-md ">

@@ -7,9 +7,12 @@ import { distance, motion } from "framer-motion";
 import { mnemonicToEntropy } from "ethers/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomer, setBusiness } from "../reducer";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Abi from "./Abi";
 const RegisterCustomer = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [customerData, setCustomerData] = useState({
     firstName: "",
     lastName: "",
@@ -118,6 +121,7 @@ const RegisterCustomer = () => {
         // Handle the response from the backend
         console.log(response.data); // This should contain user details and access token
         dispatch(setCustomer(response));
+        navigate("/customerHome");
       } catch (error) {
         console.log(error);
       }
@@ -194,6 +198,9 @@ const RegisterCustomer = () => {
             >
               Register
             </motion.button>
+            <p className=" text-center p-1 ">
+              Already Registered ? <Link to="/loginCustomer">Sign In</Link>
+            </p>
           </div>
         </form>
       </div>

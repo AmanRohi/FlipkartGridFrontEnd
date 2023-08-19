@@ -7,8 +7,10 @@ import { motion } from "framer-motion";
 import { mnemonicToEntropy } from "ethers/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomer, setBusiness } from "../reducer";
+import { useNavigate } from "react-router-dom";
 import Abi from "./Abi";
 const LoginCustomer = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({
     pwd: "",
@@ -83,6 +85,7 @@ const LoginCustomer = () => {
         // Handle the response from the backend
         console.log(response.data); // This should contain user details and access token
         dispatch(setCustomer(response));
+        navigate("/customerHome");
       } catch (error) {
         console.log(error);
       }
@@ -111,9 +114,9 @@ const LoginCustomer = () => {
             type="text"
             id="email"
             placeholder="Enter your Email"
-            value={customerData.pwd}
+            value={customerData.email}
             onChange={(e) =>
-              setCustomerData({ ...customerData, pwd: e.target.value })
+              setCustomerData({ ...customerData, email: e.target.value })
             }
             required
           />
@@ -146,7 +149,7 @@ const LoginCustomer = () => {
               type="submit"
               className="px-1 py-3 bg-indigo-500 rounded-md text-white text-[18px]  shadow-md shadow-blue-400"
             >
-              Register
+              LogIn
             </motion.button>
           </div>
         </form>

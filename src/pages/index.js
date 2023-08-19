@@ -7,4 +7,6 @@ import Home from "./Home";
 import BusinessHome from "./BusinessHome";
 import CustomerHome from "./CustomerHome";
 import TransactionHistory from "./TransactionHistory";
-export {GetReward,TransactionHistory,LoginCustomer,RegisterBusiness,RegisterCustomer,LogInBusiness,Home,BusinessHome,CustomerHome};
+import ProtectedCustomer from "./ProtectedCustomer";
+import ProtectedBusiness from "./ProtectedBusiness";
+export {ProtectedBusiness,ProtectedCustomer,GetReward,TransactionHistory,LoginCustomer,RegisterBusiness,RegisterCustomer,LogInBusiness,Home,BusinessHome,CustomerHome};

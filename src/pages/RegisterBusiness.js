@@ -8,7 +8,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { setBusiness, setCustomer } from "../reducer";
 import { motion } from "framer-motion";
 import Abi from "./Abi";
+import { Link,useNavigate } from "react-router-dom";
 const RegisterBusiness = () => {
+  const navigate=useNavigate();
   const [businessData, setBusinessData] = useState({
     name: "",
     email: "",
@@ -112,6 +114,7 @@ const RegisterBusiness = () => {
         // Handle the response from the backend
         console.log(response.data); // This should contain user details and access token
         dispatch(setBusiness(response));
+        navigate("/businessHome");
       } catch (error) {
         console.log(error);
       }
@@ -202,6 +205,11 @@ const RegisterBusiness = () => {
             >
               Register
             </motion.button>
+            <p
+              className=" text-center p-1 "
+            >
+              Already Registered ? <Link to='/loginBusiness'>Sign In</Link>
+            </p>
           </div>
         </form>
       </div>

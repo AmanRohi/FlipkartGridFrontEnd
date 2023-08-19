@@ -6,8 +6,10 @@ import { mnemonicToEntropy } from "ethers/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomer, setBusiness } from "../reducer";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Abi from "./Abi";
 const LogInBusiness = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [businessData, setBusinessData] = useState({
     name: "",
@@ -112,6 +114,7 @@ const LogInBusiness = () => {
         // Handle the response from the backend
         console.log(response.data); // This should contain user details and access token
         dispatch(setBusiness(response));
+        navigate("/businessHome");
       } catch (error) {
         console.log(error);
       }
