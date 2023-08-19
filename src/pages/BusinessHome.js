@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 import Abi from "./Abi";
 import Loader from "./loader";
 import Navbar from "./Navbar";
+import { ToastContainer, toast } from "react-toastify";
 function BusinessHome() {
   const business = useSelector((store) => store.business);
   const [response, setResponse] = useState(null);
@@ -102,7 +103,9 @@ function BusinessHome() {
         console.log("Transaction Response : ", txResponse.transactionHash);
 
         getBusinessBalance(response.tokenContractAddress);
+        toast.success("Product Added Successfully");
       } catch (error) {
+        toast.error(error.message);
         console.log(error);
       }
     } else {
@@ -166,6 +169,20 @@ function BusinessHome() {
           </div>
         </div>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </div>
   );
 }

@@ -37,7 +37,7 @@ function TransactionHistory() {
   useEffect(() => {
     getResponse();
   }, []);
-
+  console.log(response);
   return (
     <div>
       {response === null || isLoading === true ? (
@@ -50,8 +50,8 @@ function TransactionHistory() {
           <Navbar />
           <div className="w-[90%] shadow-md shadow-gray-500">
             <div className="flex justify-between bg-indigo-400 px-4 py-3 shadow-sm shadow-gray-300 rounded-md ">
-              <p className=" text-white text-[20px]">Business Name</p>
-              <p className=" text-white text-[20px]">Business Email</p>
+              <p className=" text-white text-[20px]">Tomato</p>
+              <p className=" text-white text-[20px]">tomato@gmail.com</p>
             </div>
             <div className="flex flex-col gap-4  p-12 overflow-scroll h-full">
               {response.map((transaction) => (
