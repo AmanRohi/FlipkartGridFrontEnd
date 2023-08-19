@@ -8,7 +8,7 @@ import { mnemonicToEntropy } from "ethers/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomer, setBusiness } from "../reducer";
 import { useNavigate } from "react-router-dom";
-
+import Navbar from "./Navbar";
 import Abi from "./Abi";
 const LoginCustomer = () => {
   const navigate = useNavigate();
@@ -105,8 +105,9 @@ const LoginCustomer = () => {
   };
 
   return (
-    <div className="w-screen h-screen  flex justify-center items-center  from-gray-900 to-gray-600 bg-gradient-to-b">
-      <div className="w-[30%] bg-white shadow-lg shadow-gray-800 rounded-lg flex flex-col gap-4">
+    <div className="w-screen h-screen  flex flex-col items-center gap-16">
+      <Navbar/>
+      <div className="w-[30%] drop-shadow-xl bg-white shadow-lg shadow-gray-400 rounded-lg flex flex-col gap-4">
         <h2 className="text-center bg-indigo-500 py-3 text-white text-[20px] rounded-t-lg">
           Login Your Customer
         </h2>

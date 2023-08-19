@@ -8,6 +8,9 @@ import { motion, transform } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import Abi from "./Abi";
 import Loader from "./loader";
+import Navbar from "./Navbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const GetReward = () => {
   const [products, setProducts] = useState([]);
   const customer = useSelector((store) => store.customer);
@@ -84,7 +87,8 @@ const GetReward = () => {
     // e.preventDefault();
     await connectWallet();
     // console.log(productId);
-    console.log(tokenContractAddress);
+    console.log(tokenContractAddress + " here it sisisisii");
+    alert(`Token Generated ${tokenContractAddress}`);
     if (window.ethereum) {
       try {
         // Request account access if needed
@@ -128,7 +132,7 @@ const GetReward = () => {
         // const userEmail=customerData.userEmail;
         // const firstName=customerData.firstName;
         // const lastName=customerData.lastName;
-          
+
         const accessToken = customer.data.accessToken;
         // Send transaction hash and other data to your backend
         const response = await axios.post(
@@ -146,12 +150,14 @@ const GetReward = () => {
           }
         );
 
-        
         setIsLoading(false);
         // // Handle the response from the backend
-        console.log(response.data + " ....this "); // This should contain user details and access token
+        console.log(response.data + " ....this ");
+        // This should contain user details and access token
+        toast.success("Token Successfully Purchased!");
       } catch (error) {
         console.log(error);
+        toast.error(error.message);
       }
     } else {
       await connectWallet();
@@ -203,16 +209,16 @@ const GetReward = () => {
           }
         );
 
-        
         setIsLoading(false);
 
         console.log(response.data);
+        toast.success("successfully joined Business");
       } catch (error) {
         console.log(error);
+        toast.error(error.message);
       }
     }
   };
-
 
   const handleSpend = async (
     productId,
@@ -225,7 +231,7 @@ const GetReward = () => {
     console.log(tokenContractAddress);
 
     if (!window.ethereum) {
-      console.error('MetaMask not detected');
+      console.error("MetaMask not detected");
       return;
     }
 
@@ -234,9 +240,13 @@ const GetReward = () => {
 
     const tokenContractABI = Abi.tokenABI; // Your contract's ABI
 
-    const contract = new ethers.Contract(tokenContractAddress, tokenContractABI, signer);
+    const contract = new ethers.Contract(
+      tokenContractAddress,
+      tokenContractABI,
+      signer
+    );
 
-    const burnAddress = '0x2b41f55CDE00d788b0de73767932f90507dB86ce'; // Address where tokens are burned
+    const burnAddress = "0x2b41f55CDE00d788b0de73767932f90507dB86ce"; // Address where tokens are burned
 
     try {
       const _points = ethers.utils.parseUnits("1", "18");
@@ -244,11 +254,12 @@ const GetReward = () => {
       setIsLoading(true);
       await tx.wait();
       setIsLoading(false);
-      console.log('Tokens burned successfully');
+      console.log("Tokens burned successfully");
+      toast.success("Successfully Spend Token");
     } catch (error) {
-      console.error('Error burning tokens', error);
+      console.error("Error burning tokens", error);
+      toast.error(error.message);
     }
-
   };
 
   const getAllBusiness = async () => {
@@ -264,69 +275,91 @@ const GetReward = () => {
 
   return (
     <div>
-    { (products===null || isLoading===true) ? <Loader/> :<div
-      className="w-screen h-screen 
-     from-gray-900 to-gray-600 bg-gradient-to-b flex flex-col"
-    >
-      <div className="flex justify-between bg-indigo-400 px-4 py-3 w-full fixed shadow-sm shadow-gray-300 rounded-md ">
-        <p className=" text-white text-[20px]">Business Name</p>
-        <p className=" text-white text-[20px]">Business Email</p>
-      </div>
-      <div className="flex flex-wrap gap-y-7 gap-x-7 mt-20 p-12 overflow-scroll h-full">
-        {products.map((product) => (
-          <motion.div
-            animate={{ y: 0, opacity: 1 }}
-            initial={{ y: 50, opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            whileHover={{ y: -10 }}
-            className=" bg-white w-[23%] h-[200px] rounded-md"
-          >
-            <h3 className=" px-3 py-1 bg-indigo-500 text-center text-white text-[20px] rounded-t-md">
-              {product.name}
-            </h3>
-            <div className="flex flex-col mt-4 p-2 gap-2">
-              <button
-                className="bg-gradient-to-r from-sky-400 to-blue-500 text-white text-[20px] px-2 py-1 rounded-md"
-                onClick={() =>
-                  handleSubmit(
-                    product._id,
-                    product.businessWalletAddress,
-                    product.tokenContractAddress
-                  )
-                }
-              >
-                Purchase
-              </button>
-              <button
-                className=" bg-gradient-to-r from-sky-400 to-blue-500 text-white text-[20px] px-2 py-1 rounded-md"
-                onClick={() =>
-                  handleJoinBusiness(
-                    product._id,
-                    product.businessWalletAddress,
-                    product.tokenContractAddress
-                  )
-                }
-              >
-                Join
-              </button>
-
-              <button
-                className=" bg-gradient-to-r from-sky-400 to-blue-500 text-white text-[20px] px-2 py-1 rounded-md"
-                onClick={() =>
-                  handleSpend(
-                    product._id,
-                    product.businessWalletAddress,
-                    product.tokenContractAddress
-                  )
-                }
-              >
-                Spend
-              </button>
+      {products === null || isLoading === true ? (
+        <Loader />
+      ) : (
+        <div
+          className="w-screen h-screen 
+      flex flex-col items-center gap-8"
+        >
+          {/* Same as */}
+          <Navbar />
+          <div className="w-[90%]  flex flex-col shadow-md shadow-gray-500">
+            <div className=" w-full flex justify-between bg-indigo-400 px-4 py-3  shadow-md shadow-gray-300  rounded-md ">
+              <p className=" text-white text-[20px]">Business Name</p>
+              <p className=" text-white text-[20px]">Business Email</p>
             </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>}
+            <div className="flex flex-wrap gap-y-7 gap-x-7  p-12 overflow-scroll h-full">
+              {products.map((product) => (
+                <motion.div
+                  animate={{ y: 0, opacity: 1 }}
+                  initial={{ y: 50, opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                  whileHover={{ y: -10 }}
+                  className=" bg-white w-[23%] h-[200px] rounded-md drop-shadow-lg shadow-md shadow-blue-500"
+                >
+                  <h3 className=" px-3 py-1 bg-indigo-500 text-center text-white text-[20px] rounded-t-md">
+                    {product.name}
+                  </h3>
+                  <div className="flex flex-col mt-4 p-2 gap-2">
+                    <button
+                      className="bg-gradient-to-r from-sky-400 to-blue-500 text-white text-[20px] px-2 py-1 rounded-md"
+                      onClick={() =>
+                        handleSubmit(
+                          product._id,
+                          product.businessWalletAddress,
+                          product.tokenContractAddress
+                        )
+                      }
+                    >
+                      Purchase
+                    </button>
+                    <button
+                      className=" bg-gradient-to-r from-sky-400 to-blue-500 text-white text-[20px] px-2 py-1 rounded-md"
+                      onClick={() =>
+                        handleJoinBusiness(
+                          product._id,
+                          product.businessWalletAddress,
+                          product.tokenContractAddress
+                        )
+                      }
+                    >
+                      Join
+                    </button>
+
+                    <button
+                      className=" bg-gradient-to-r from-sky-400 to-blue-500 text-white text-[20px] px-2 py-1 rounded-md"
+                      onClick={() =>
+                        handleSpend(
+                          product._id,
+                          product.businessWalletAddress,
+                          product.tokenContractAddress
+                        )
+                      }
+                    >
+                      Spend
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </div>
   );
 };

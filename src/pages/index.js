@@ -9,4 +9,6 @@ import CustomerHome from "./CustomerHome";
 import TransactionHistory from "./TransactionHistory";
 import ProtectedCustomer from "./ProtectedCustomer";
 import ProtectedBusiness from "./ProtectedBusiness";
-export {ProtectedBusiness,ProtectedCustomer,GetReward,TransactionHistory,LoginCustomer,RegisterBusiness,RegisterCustomer,LogInBusiness,Home,BusinessHome,CustomerHome};
+import TermsandCondition from "./TermsandCondition";
+import AboutUs from "./AboutUs";
+export {AboutUs,TermsandCondition,ProtectedBusiness,ProtectedCustomer,GetReward,TransactionHistory,LoginCustomer,RegisterBusiness,RegisterCustomer,LogInBusiness,Home,BusinessHome,CustomerHome};

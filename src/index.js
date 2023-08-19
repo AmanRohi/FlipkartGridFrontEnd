@@ -17,6 +17,8 @@ import {
   TransactionHistory,
   ProtectedBusiness,
   LogInBusiness,
+  TermsandCondition,
+  AboutUs,
 } from "./pages";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -29,7 +31,9 @@ root.render(
           <Route path="/joinCustomer" element={<RegisterCustomer />} />
           <Route path="/loginCustomer" element={<LoginCustomer />} />
           <Route path="/getReward" element={<GetReward />} />
+          <Route path="/terms_conditions" element={<TermsandCondition />} />
           <Route path="/transactionHistory" element={<TransactionHistory />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
           <Route
             path="/businessHome"
             element={

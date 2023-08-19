@@ -1,7 +1,6 @@
-
-import { RegisterCustomer,LogInBusiness, RegisterBusiness, LoginCustomer, GetReward, Home, BusinessHome,CustomerHome} from "./pages";
+import { Home, AboutUs } from "./pages";
 function App() {
-  return <Home/>
+  return <Home />;
 }
 
 export default App;

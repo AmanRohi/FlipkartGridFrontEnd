@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 import { ethers } from "ethers";
 import Abi from "./Abi";
 import Loader from "./loader";
-
+import Navbar from "./Navbar";
 function BusinessHome() {
   const business = useSelector((store) => store.business);
-  const [response,setResponse]=useState(null);
-  const [walletBalance,setWalletBalance]=useState("");
+  const [response, setResponse] = useState(null);
+  const [walletBalance, setWalletBalance] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -20,15 +20,13 @@ function BusinessHome() {
   }, []);
 
   const getBusinessBalance = async (tokenContractAddress) => {
-    
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     // Prompt user for account connections
     await provider.send("eth_requestAccounts", []);
     const signer = provider.getSigner();
     const businessAdd = await signer.getAddress();
     const tokenABI = Abi.tokenABI;
-    
-  
+
     // idhar add token contract address by taking it from the :
     // database itself !!
     const tokenContract = new ethers.Contract(
@@ -38,22 +36,22 @@ function BusinessHome() {
     );
 
     const tokenBalance = await tokenContract.balanceOf(businessAdd);
-    console.log("Flip ", tokenBalance/(10**18));
-    setWalletBalance(tokenBalance/(10**18));
+    console.log("Flip ", tokenBalance / 10 ** 18);
+    setWalletBalance(tokenBalance / 10 ** 18);
     setIsLoading(false);
   };
 
-  useEffect(()=>{
-    if(response){
+  useEffect(() => {
+    if (response) {
       getBusinessBalance(response.tokenContractAddress);
     }
-  },[response]);
+  }, [response]);
 
   const getResponse = async () => {
-
-    const accessToken=business.data.accessToken;
+    const accessToken = business.data.accessToken;
     const rr = await axios.post(
-      "https://flipkartbackend-un9n.onrender.com/getBusinessDetails",{},
+      "https://flipkartbackend-un9n.onrender.com/getBusinessDetails",
+      {},
       {
         headers: {
           Authorization: "Bearer " + accessToken,
@@ -99,13 +97,11 @@ function BusinessHome() {
           businessAdd
         );
 
-        
         setIsLoading(true);
         const txResponse = await transaction.wait();
         console.log("Transaction Response : ", txResponse.transactionHash);
-          
-        getBusinessBalance(response.tokenContractAddress);
 
+        getBusinessBalance(response.tokenContractAddress);
       } catch (error) {
         console.log(error);
       }
@@ -113,7 +109,6 @@ function BusinessHome() {
       await connectWallet();
     }
   };
-
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -134,38 +129,44 @@ function BusinessHome() {
 
   return (
     <div>
-    {(response===null || isLoading===true) ? <Loader/> :<div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
-      <div className="w-[50%] h-[60%] bg-white p-5 rounded-md ">
-        <div className="flex justify-between bg-indigo-400 px-4 py-3 shadow-md shadow-gray-300 rounded-md">
-          <p className=" text-white text-[20px]">{response.name}</p>
-          <p className=" text-white text-[20px]">{response.email}</p>
-        </div>
+      {response === null || isLoading === true ? (
+        <Loader />
+      ) : (
+        <div className="w-screen h-screen flex-col  flex  items-center gap-12">
+          <Navbar />
+          <div className="w-[50%] h-[60%] bg-white p-5 rounded-md shadow-md shadow-gray-400 drop-shadow-xl">
+            <div className="flex justify-between bg-indigo-500 px-4 py-3 shadow-md shadow-gray-300 rounded-md">
+              <p className=" text-white text-[20px]">{response.name}</p>
+              <p className=" text-white text-[20px]">{response.email}</p>
+            </div>
 
-        <div className="flex gap-10 mt-16">
-          <p className="bg-green-700 px-5 py-2 text-white w-max text-[20px] rounded-md shadow-md shadow-green-300">
-            Token : {response.tokenSymbol}
-          </p>
-          <p className="bg-red-700 px-5 py-2 text-white w-max text-[20px] rounded-md shadow-md shadow-green-300">
-            Balance : {walletBalance}
-          </p>
+            <div className="flex gap-10 mt-16">
+              <p className="bg-indigo-700 px-5 py-2 text-white w-max text-[20px] drop-shadow-xl rounded-md shadow-md shadow-gray-300">
+                Token : {response.tokenSymbol}
+              </p>
+              <p className="bg-violet-500 px-5 py-2 text-white w-max text-[20px] drop-shadow-xl rounded-md shadow-md shadow-gray-300">
+                Balance : {walletBalance}
+              </p>
+            </div>
+            <div className="mt-10 flex flex-col gap-4 ">
+              <input
+                type="text"
+                placeholder="Product Name"
+                className="outline-none px-2 py-1"
+              />
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                type="button"
+                onClick={handleSubmit}
+                className="px-1 py-3 bg-indigo-500 rounded-md text-white text-[18px] shadow-md shadow-blue-400 "
+              >
+                Add Product
+              </motion.button>
+            </div>
+          </div>
         </div>
-        <div className="mt-10 flex flex-col gap-4 ">
-          <input
-            type="text"
-            placeholder="Product Name"
-            className="outline-none px-2 py-1"
-          />
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            type="button"
-            onClick={handleSubmit}
-            className="px-1 py-3 bg-indigo-500 rounded-md text-white text-[18px] shadow-md shadow-blue-400 "
-          >
-            Add Product
-          </motion.button>
-        </div>
-      </div>
-    </div>}</div>
+      )}
+    </div>
   );
 }
 

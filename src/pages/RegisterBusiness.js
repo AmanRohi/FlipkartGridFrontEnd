@@ -7,11 +7,14 @@ import { mnemonicToEntropy } from "ethers/lib/utils";
 import { useSelector, useDispatch } from "react-redux";
 import { setBusiness, setCustomer } from "../reducer";
 import { motion } from "framer-motion";
+import Navbar from "./Navbar";
 import Abi from "./Abi";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "./loader";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const RegisterBusiness = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -120,14 +123,14 @@ const RegisterBusiness = () => {
             email,
             pwd: password,
             tokenContractAddress: ltAddress,
-            tokenSymbol:businessData.tokenSymbol
+            tokenSymbol: businessData.tokenSymbol,
           }
         );
 
         // Handle the response from the backend
         console.log(response.data); // This should contain user details and access token
         dispatch(setBusiness(response));
-        
+
         setIsLoading(false);
         navigate("/businessHome");
       } catch (error) {
@@ -150,49 +153,53 @@ const RegisterBusiness = () => {
 
   return (
     <div>
-    {isLoading===true ? <Loader/> : <div
-      className="  w-screen h-screen  flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b
+      {isLoading === true ? (
+        <Loader />
+      ) : (
+        <div
+          className="  w-screen h-screen  flex flex-col items-center gap-4 
      "
-    >
-      <div className="w-[30%] bg-white shadow-lg shadow-gray-800 rounded-lg flex flex-col gap-4">
-        <h2 className="text-center bg-indigo-500 py-3 text-white text-[20px] rounded-t-lg">
-          Register Your Business
-        </h2>
-        <form onSubmit={handleSubmit} className="p-12">
-          <input
-            type="text"
-            id="businessName"
-            placeholder="Enter your Business Name"
-            value={businessData.name}
-            onChange={(e) =>
-              setBusinessData({ ...businessData, name: e.target.value })
-            }
-            required
-          />
+        >
+          <Navbar />
+          <div className="w-[30%] drop-shadow-xl bg-white shadow-lg shadow-gray-800 rounded-lg flex flex-col gap-4">
+            <h2 className="text-center bg-indigo-500 py-3 text-white text-[20px] rounded-t-lg">
+              Register Your Business
+            </h2>
+            <form onSubmit={handleSubmit} className="p-12">
+              <input
+                type="text"
+                id="businessName"
+                placeholder="Enter your Business Name"
+                value={businessData.name}
+                onChange={(e) =>
+                  setBusinessData({ ...businessData, name: e.target.value })
+                }
+                required
+              />
 
-          <input
-            type="email"
-            id="businessEmail"
-            placeholder="Enter your Business Email"
-            value={businessData.email}
-            onChange={(e) =>
-              setBusinessData({ ...businessData, email: e.target.value })
-            }
-            required
-          />
+              <input
+                type="email"
+                id="businessEmail"
+                placeholder="Enter your Business Email"
+                value={businessData.email}
+                onChange={(e) =>
+                  setBusinessData({ ...businessData, email: e.target.value })
+                }
+                required
+              />
 
-          <input
-            type="text"
-            id="pwd"
-            placeholder="Enter your Password"
-            value={businessData.pwd}
-            onChange={(e) =>
-              setBusinessData({ ...businessData, pwd: e.target.value })
-            }
-            required
-          />
+              <input
+                type="text"
+                id="pwd"
+                placeholder="Enter your Password"
+                value={businessData.pwd}
+                onChange={(e) =>
+                  setBusinessData({ ...businessData, pwd: e.target.value })
+                }
+                required
+              />
 
-          {/* <label htmlFor="wallet">Business Wallet Address</label>
+              {/* <label htmlFor="wallet">Business Wallet Address</label>
           <input
             type="text"
             id="wallet"
@@ -201,35 +208,37 @@ const RegisterBusiness = () => {
             onChange={(e) => setBusinessData({ ...businessData, businessWalletAddress: e.target.value })}
             required
           /> */}
-          <input
-            type="text"
-            id="symb"
-            placeholder="Enter your Token Symbol"
-            value={businessData.tokenSymbol}
-            onChange={(e) =>
-              setBusinessData({ ...businessData, tokenSymbol: e.target.value })
-            }
-            required
-          />
+              <input
+                type="text"
+                id="symb"
+                placeholder="Enter your Token Symbol"
+                value={businessData.tokenSymbol}
+                onChange={(e) =>
+                  setBusinessData({
+                    ...businessData,
+                    tokenSymbol: e.target.value,
+                  })
+                }
+                required
+              />
 
-          {/* Add more input fields for other details */}
-          <div className="flex flex-col mt-6  gap-3">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              type="submit"
-              className="px-1 py-3 bg-indigo-500 rounded-md text-white text-[18px]  shadow-md shadow-blue-400"
-            >
-              Register
-            </motion.button>
-            <p
-              className=" text-center p-1 "
-            >
-              Already Registered ? <Link to='/loginBusiness'>Sign In</Link>
-            </p>
+              {/* Add more input fields for other details */}
+              <div className="flex flex-col mt-6  gap-3">
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  type="submit"
+                  className="px-1 py-3 bg-indigo-500 rounded-md text-white text-[18px]  shadow-md shadow-blue-400"
+                >
+                  Register
+                </motion.button>
+                <p className=" text-center p-1 ">
+                  Already Registered ? <Link to="/loginBusiness">Sign In</Link>
+                </p>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </div>}
+        </div>
+      )}
     </div>
   );
 };

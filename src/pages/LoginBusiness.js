@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCustomer, setBusiness } from "../reducer";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 import Abi from "./Abi";
 const LogInBusiness = () => {
   const navigate = useNavigate();
@@ -120,10 +121,11 @@ const LogInBusiness = () => {
 
   return (
     <div
-      className="  w-screen h-screen  flex justify-center items-center  from-gray-900 to-gray-600 bg-gradient-to-b
+      className="  w-screen h-screen  flex flex-col items-center gap-16
      "
     >
-      <div className="w-[30%] bg-white shadow-md rounded-lg flex flex-col gap-4">
+      <Navbar />
+      <div className="w-[30%] drop-shadow-xl bg-white shadow-md shadow-gray-400 rounded-lg flex flex-col gap-4 ">
         <h2 className="text-center bg-indigo-500 py-3 text-white text-[20px] rounded-t-lg">
           LogIn To Business
         </h2>

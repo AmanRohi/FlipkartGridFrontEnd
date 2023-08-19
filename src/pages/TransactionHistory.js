@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import Loader from "./loader";
+import Navbar from "./Navbar";
 function TransactionHistory() {
   const dispatch = useDispatch();
   const customer = useSelector((store) => store.customer);
@@ -16,23 +17,22 @@ function TransactionHistory() {
     }, 3000);
   }, []);
 
-  const [response,setResponse] = useState(null);
+  const [response, setResponse] = useState(null);
   const getResponse = async () => {
-
-    const accessToken=customer.data.accessToken;
+    const accessToken = customer.data.accessToken;
     const rr = await axios.post(
-      "https://flipkartbackend-un9n.onrender.com/getTransactionHistroy",{},
+      "https://flipkartbackend-un9n.onrender.com/getTransactionHistroy",
+      {},
       {
         headers: {
           Authorization: "Bearer " + accessToken,
           // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRkNDY3M2M2ODliMzRkMzY5ZmRlZGYiLCJyb2xlIjoiQ3VzdG9tZXIiLCJpYXQiOjE2OTIyMjMwOTF9.1WFN8JJAVQUkwFVr4a1GA1HfhyGFMFLPIoJHhLdeMpY`, // Provide your access token
         },
       }
-    );  
+    );
 
     setResponse(rr.data);
     console.log(rr.data);
-
   };
   useEffect(() => {
     getResponse();
@@ -40,33 +40,41 @@ function TransactionHistory() {
 
   return (
     <div>
-    {(response===null || isLoading===true ) ? <Loader/> : <div
-      className="w-screen h-screen 
-     from-gray-900 to-gray-600 bg-gradient-to-b flex flex-col"
-    >
-      <div className="flex justify-between bg-indigo-400 px-4 py-3 w-full fixed shadow-sm shadow-gray-300 rounded-md ">
-        <p className=" text-white text-[20px]">Business Name</p>
-        <p className=" text-white text-[20px]">Business Email</p>
-      </div>
-      <div className="flex flex-wrap gap-y-7 gap-x-7 mt-20 p-12 overflow-scroll h-full">
-        {response.map((transaction) => (
-          <motion.div
-            animate={{ y: 0, opacity: 1 }}
-            initial={{ y: 50, opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            whileHover={{ y: -10 }}
-            className=" bg-white w-[50%] h-[200px] rounded-md"
-          >
-            <h3 className=" px-3 py-1 bg-indigo-500 text-center text-white text-[20px] rounded-t-md">
-              From : {transaction.from}
-            </h3>
-            <h3 className=" px-3 py-1 bg-indigo-500 text-center text-white text-[20px] rounded-t-md">
-              To : {transaction.to}
-            </h3>
-          </motion.div>
-        ))}
-      </div>
-    </div>}</div>
+      {response === null || isLoading === true ? (
+        <Loader />
+      ) : (
+        <div
+          className="w-screen h-screen 
+      flex flex-col items-center gap-7"
+        >
+          <Navbar />
+          <div className="w-[90%] shadow-md shadow-gray-500">
+            <div className="flex justify-between bg-indigo-400 px-4 py-3 shadow-sm shadow-gray-300 rounded-md ">
+              <p className=" text-white text-[20px]">Business Name</p>
+              <p className=" text-white text-[20px]">Business Email</p>
+            </div>
+            <div className="flex flex-col gap-4  p-12 overflow-scroll h-full">
+              {response.map((transaction) => (
+                <motion.div
+                  animate={{ y: 0, opacity: 1 }}
+                  initial={{ y: 50, opacity: 0 }}
+                  transition={{ duration: 0.6 }}
+                  whileHover={{ y: -10 }}
+                  className=" bg-white w-max h-[100px] drop-shadow-lg rounded-md shadow-md shadow-gray-500 flex flex-col justify-between p-2 py-4"
+                >
+                  <h3 className=" px-3 py-1 bg-indigo-500 text-center text-white text-[15px] rounded-md">
+                    From : {transaction.from}
+                  </h3>
+                  <h3 className=" px-3 py-1 bg-indigo-500 text-center text-white text-[15px] rounded-md">
+                    To : {transaction.to}
+                  </h3>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
