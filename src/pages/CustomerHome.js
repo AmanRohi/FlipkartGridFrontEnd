@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
@@ -6,11 +6,17 @@ import { useNavigate } from "react-router-dom";
 function CustomerHome() {
   const navigate = useNavigate();
   const customer = useSelector((store) => store.customer);
-  const accessToken = customer.accessToken;
-  const response = null;
+  const [hashMap, setHashMap] = useState({
+  });
+  const [response,setResponse]=useState(null);
+  
+  const [businessess,setBusinessess]=useState([]);
   const getResponse = async () => {
-    response = await axios.post(
-      "https://flipkartbackend-un9n.onrender.com/getUserDetails",
+    const accessToken = customer.data.accessToken;
+    
+    console.log("Here it is : ",accessToken);
+    const rr = await axios.post(
+      "https://flipkartbackend-un9n.onrender.com/getUserDetails",{},
       {
         headers: {
           Authorization: "Bearer " + accessToken,
@@ -18,9 +24,32 @@ function CustomerHome() {
         },
       }
     );
+
+    
+    setResponse(rr.data);
+
+    const rr2 = await axios.post(
+      "https://flipkartbackend-un9n.onrender.com/getBusinessDetails/byUser",{
+        businessess:rr.data.loyaltyPoints
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+          // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRkNDY3M2M2ODliMzRkMzY5ZmRlZGYiLCJyb2xlIjoiQ3VzdG9tZXIiLCJpYXQiOjE2OTIyMjMwOTF9.1WFN8JJAVQUkwFVr4a1GA1HfhyGFMFLPIoJHhLdeMpY`, // Provide your access token
+        },
+      }
+    );
+
+
+    setBusinessess(rr2.data);
+
+    console.log("Here I am With data : ",rr2.data);
+
+    console.log("I AM GOGO");
+
   };
   useEffect(() => {
-    if (customer) getResponse();
+     getResponse();
   }, []);
 
   const connectWallet = async () => {
@@ -39,9 +68,10 @@ function CustomerHome() {
   useEffect(() => {
     connectWallet();
   }, []); // means at startup !!
-  console.log(response);
   return (
-    <div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
+    // <div>Hello</div>
+    <div>
+    {response && <div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
       <div className="w-[42%] h-[90%] bg-white p-5 rounded-md ">
         <div className="flex justify-between bg-indigo-400 px-4 py-3 shadow-md shadow-gray-300 rounded-md">
           <p className=" text-white text-[20px]">{response.firstName}</p>
@@ -53,10 +83,10 @@ function CustomerHome() {
             Loyalty Points
           </p>
           <div className="mt-4 flex gap-2 flex-wrap h-[95%] overflow-scroll">
-            {response.loyaltyPoints.map((res) => {
+            {businessess.map((res) => {
               return (
                 <div className="w-[140px] p-4 h-[90px] bg-gray-500/95 rounded-md text-white justify-center items-center flex flex-col gap-1 text-[22px]">
-                  <p>{res.business.name}</p>
+                  <p>{res.businessDetails.name}</p>
                   <p>{res.totalCount}</p>
                 </div>
               );
@@ -85,6 +115,7 @@ function CustomerHome() {
           Transaction History
         </motion.button>
       </div>
+    </div>}
     </div>
   );
 }
