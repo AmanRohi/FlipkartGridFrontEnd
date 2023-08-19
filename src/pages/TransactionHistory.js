@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,22 +6,32 @@ import { motion } from "framer-motion";
 function TransactionHistory() {
   const dispatch = useDispatch();
   const customer = useSelector((store) => store.customer);
-
-  const response = null;
+  
+  const [response,setResponse] = useState(null);
   const getResponse = async () => {
-    response = await axios.post(
-      "https://flipkartbackend-un9n.onrender.com/getTransactionHistroy",
+
+    const accessToken=customer.data.accessToken;
+    const rr = await axios.post(
+      "http://localhost:3000/getTransactionHistroy",{},
       {
-        user: customer.user,
+        headers: {
+          Authorization: "Bearer " + accessToken,
+          // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRkNDY3M2M2ODliMzRkMzY5ZmRlZGYiLCJyb2xlIjoiQ3VzdG9tZXIiLCJpYXQiOjE2OTIyMjMwOTF9.1WFN8JJAVQUkwFVr4a1GA1HfhyGFMFLPIoJHhLdeMpY`, // Provide your access token
+        },
       }
-    );
+    );  
+
+    setResponse(rr.data);
+    console.log(rr.data);
+
   };
   useEffect(() => {
-    if (customer) getResponse();
+    getResponse();
   }, []);
 
   return (
-    <div
+    <div>
+    {response && <div
       className="w-screen h-screen 
      from-gray-900 to-gray-600 bg-gradient-to-b flex flex-col"
     >
@@ -47,7 +57,7 @@ function TransactionHistory() {
           </motion.div>
         ))}
       </div>
-    </div>
+    </div>}</div>
   );
 }
 

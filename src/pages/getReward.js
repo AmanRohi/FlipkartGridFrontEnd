@@ -16,7 +16,7 @@ const GetReward = () => {
 
     const startUp = async () => {
       await axios
-        .get("http://localhost:3000/getListOfBusiness")
+        .get("https://flipkartbackend-un9n.onrender.com/getListOfBusiness")
         .then((response) => {
           setProducts(response.data);
         })
@@ -122,7 +122,7 @@ const GetReward = () => {
         const accessToken = customer.data.accessToken;
         // Send transaction hash and other data to your backend
         const response = await axios.post(
-          "http://localhost:3000/getReward",
+          "https://flipkartbackend-un9n.onrender.com/getReward",
           {
             signedTransaction: hash,
             businessId: productId,
@@ -178,7 +178,7 @@ const GetReward = () => {
 
         const accessToken = customer.data.accessToken;
         const response = await axios.post(
-          "http://localhost:3000/joinBusiness",
+          "https://flipkartbackend-un9n.onrender.com/joinBusiness",
           {
             signedTransaction: hash,
             businessId: productId,
@@ -513,7 +513,7 @@ const GetReward = () => {
         const accessToken = customer.data.accessToken;
         // Send transaction hash and other data to your backend
         const response = await axios.post(
-          "http://localhost:3000/spend",
+          "https://flipkartbackend-un9n.onrender.com/spend",
           {
             signedTransaction: hash,
             businessId: productId,
