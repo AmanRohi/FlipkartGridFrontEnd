@@ -12,7 +12,7 @@ function TransactionHistory() {
 
     const accessToken=customer.data.accessToken;
     const rr = await axios.post(
-      "http://localhost:3000/getTransactionHistroy",{},
+      "https://flipkartbackend-un9n.onrender.com/getTransactionHistroy",{},
       {
         headers: {
           Authorization: "Bearer " + accessToken,
