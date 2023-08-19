@@ -27,7 +27,7 @@ const Home = () => {
     >
       <div className="h-full w-[50%] flex justify-center items-center">
         <img
-          src="./images/home1.jpg"
+          src="./images/home2.jpg"
           className="w-[500px] rounded-lg shadow-yellow-200"
         />
       </div>

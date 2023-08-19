@@ -197,6 +197,7 @@ const GetReward = () => {
     }
   };
 
+
   const handleSpend = async (
     productId,
     businessWalletAddress,
@@ -206,335 +207,30 @@ const GetReward = () => {
     await connectWallet();
     // console.log(productId);
     console.log(tokenContractAddress);
-    if (window.ethereum) {
-      try {
-        // Request account access if needed
-        await window.ethereum.enable();
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        // Prompt user for account connections
-        await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
 
-        const contractAddress = "0x06441b211a8729B40FE15955F9A58b2F5829d022"; // Replace with your smart contract address
-        const contractABI = [
-          {
-            inputs: [],
-            payable: false,
-            stateMutability: "nonpayable",
-            type: "constructor",
-          },
-          {
-            constant: true,
-            inputs: [
-              {
-                internalType: "address",
-                name: "",
-                type: "address",
-              },
-            ],
-            name: "businesses",
-            outputs: [
-              {
-                internalType: "address",
-                name: "busAd",
-                type: "address",
-              },
-              {
-                internalType: "string",
-                name: "name",
-                type: "string",
-              },
-              {
-                internalType: "string",
-                name: "email",
-                type: "string",
-              },
-              {
-                internalType: "bool",
-                name: "isReg",
-                type: "bool",
-              },
-              {
-                internalType: "contract loyalty_points",
-                name: "lt",
-                type: "address",
-              },
-            ],
-            payable: false,
-            stateMutability: "view",
-            type: "function",
-          },
-          {
-            constant: true,
-            inputs: [
-              {
-                internalType: "address",
-                name: "",
-                type: "address",
-              },
-            ],
-            name: "customers",
-            outputs: [
-              {
-                internalType: "address",
-                name: "cusAd",
-                type: "address",
-              },
-              {
-                internalType: "string",
-                name: "firstName",
-                type: "string",
-              },
-              {
-                internalType: "string",
-                name: "lastName",
-                type: "string",
-              },
-              {
-                internalType: "string",
-                name: "email",
-                type: "string",
-              },
-              {
-                internalType: "bool",
-                name: "isReg",
-                type: "bool",
-              },
-            ],
-            payable: false,
-            stateMutability: "view",
-            type: "function",
-          },
-          {
-            constant: false,
-            inputs: [
-              {
-                internalType: "string",
-                name: "_bName",
-                type: "string",
-              },
-              {
-                internalType: "string",
-                name: "_email",
-                type: "string",
-              },
-              {
-                internalType: "address",
-                name: "_bAd",
-                type: "address",
-              },
-              {
-                internalType: "string",
-                name: "_symbol",
-                type: "string",
-              },
-              {
-                internalType: "uint8",
-                name: "_decimal",
-                type: "uint8",
-              },
-            ],
-            name: "regBusiness",
-            outputs: [],
-            payable: false,
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            constant: true,
-            inputs: [
-              {
-                internalType: "address",
-                name: "_bAd",
-                type: "address",
-              },
-            ],
-            name: "getBusinessCoin",
-            outputs: [
-              {
-                internalType: "address",
-                name: "",
-                type: "address",
-              },
-            ],
-            payable: false,
-            stateMutability: "view",
-            type: "function",
-          },
-          {
-            constant: false,
-            inputs: [
-              {
-                internalType: "string",
-                name: "_firstName",
-                type: "string",
-              },
-              {
-                internalType: "string",
-                name: "_lastName",
-                type: "string",
-              },
-              {
-                internalType: "string",
-                name: "_email",
-                type: "string",
-              },
-              {
-                internalType: "address",
-                name: "_cAd",
-                type: "address",
-              },
-            ],
-            name: "regCustomer",
-            outputs: [],
-            payable: false,
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            constant: false,
-            inputs: [
-              {
-                internalType: "address",
-                name: "_bAd",
-                type: "address",
-              },
-            ],
-            name: "joinBusiness",
-            outputs: [],
-            payable: false,
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            constant: false,
-            inputs: [
-              {
-                internalType: "address",
-                name: "_cAd",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "_points",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "_bAd",
-                type: "address",
-              },
-            ],
-            name: "reward",
-            outputs: [],
-            payable: false,
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            constant: false,
-            inputs: [
-              {
-                internalType: "uint256",
-                name: "_points",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "_bAd",
-                type: "address",
-              },
-            ],
-            name: "listProductReward",
-            outputs: [],
-            payable: false,
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-          {
-            constant: false,
-            inputs: [
-              {
-                internalType: "address",
-                name: "_cAd",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "_points",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "_bAd",
-                type: "address",
-              },
-            ],
-            name: "spend",
-            outputs: [],
-            payable: false,
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-        ];
-
-        const contract = new ethers.Contract(
-          contractAddress,
-          contractABI,
-          signer
-        );
-
-        //spend(address _cAd,uint256 _points,address _bAd)
-        const userAdd = await signer.getAddress();
-        // uint256 _points
-        const _points = ethers.utils.parseUnits("1", "18");
-        const transaction = await contract.spend(
-          userAdd,
-          _points,
-          businessWalletAddress
-        );
-
-        const txResponse = await transaction.wait();
-        console.log("Transaction Response : ", txResponse.transactionHash);
-
-        const hash = txResponse.transactionHash;
-
-        // userWalletAddress:req.body.userWalletAddress,
-        //   firstName:req.body.firstName,
-        //   lastName:req.body.lastName,
-        //   userEmail:req.body.userEmail,
-
-        // const pwd=customerData.pwd;
-        // const userWalletAddress=add;
-        // const userEmail=customerData.userEmail;
-        // const firstName=customerData.firstName;
-        // const lastName=customerData.lastName;
-          
-        const accessToken = customer.data.accessToken;
-        // Send transaction hash and other data to your backend
-        const response = await axios.post(
-          "https://flipkartbackend-un9n.onrender.com/spend",
-          {
-            signedTransaction: hash,
-            businessId: productId,
-            amount: 1,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + accessToken,
-              // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRkNDY3M2M2ODliMzRkMzY5ZmRlZGYiLCJyb2xlIjoiQ3VzdG9tZXIiLCJpYXQiOjE2OTIyMjMwOTF9.1WFN8JJAVQUkwFVr4a1GA1HfhyGFMFLPIoJHhLdeMpY`, // Provide your access token
-            },
-          }
-        );
-
-        // // Handle the response from the backend
-        console.log(response.data); // This should contain user details and access token
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      await connectWallet();
+    if (!window.ethereum) {
+      console.error('MetaMask not detected');
+      return;
     }
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    const tokenContractABI = Abi.tokenABI; // Your contract's ABI
+
+    const contract = new ethers.Contract(tokenContractAddress, tokenContractABI, signer);
+
+    const burnAddress = '0x2b41f55CDE00d788b0de73767932f90507dB86ce'; // Address where tokens are burned
+
+    try {
+      const _points = ethers.utils.parseUnits("1", "18");
+      const tx = await contract.transfer(burnAddress, _points); // Use the actual burn method and parameters
+      await tx.wait();
+      console.log('Tokens burned successfully');
+    } catch (error) {
+      console.error('Error burning tokens', error);
+    }
+
   };
 
   const getAllBusiness = async () => {
