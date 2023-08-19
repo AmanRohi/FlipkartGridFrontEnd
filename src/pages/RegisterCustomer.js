@@ -10,9 +10,18 @@ import { setCustomer, setBusiness } from "../reducer";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Abi from "./Abi";
+import Loader from "./loader";
 const RegisterCustomer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading delay
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
   const [customerData, setCustomerData] = useState({
     firstName: "",
     lastName: "",
@@ -140,7 +149,8 @@ const RegisterCustomer = () => {
   };
 
   return (
-    <div className=" w-screen h-screen  flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
+    <div>
+    {isLoading===true ? <Loader/> :<div className=" w-screen h-screen  flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
       <div className="w-[30%] bg-white shadow-lg shadow-gray-800 rounded-lg flex flex-col gap-4">
         <h2 className="text-center bg-indigo-500 py-3 text-white text-[20px] rounded-t-lg">
           Register Your Customer
@@ -204,6 +214,7 @@ const RegisterCustomer = () => {
           </div>
         </form>
       </div>
+    </div>}
     </div>
   );
 };

@@ -7,10 +7,19 @@ import "./ProductList.css"; // Import the CSS file
 import { motion, transform } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import Abi from "./Abi";
+import Loader from "./loader";
 const GetReward = () => {
   const [products, setProducts] = useState([]);
   const customer = useSelector((store) => store.customer);
-  
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading delay
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+
   useEffect(() => {
     // Fetch product data from the backend
 
@@ -103,6 +112,7 @@ const GetReward = () => {
           businessWalletAddress
         );
 
+        setIsLoading(true);
         const txResponse = await transaction.wait();
         console.log("Transaction Response : ", txResponse.transactionHash);
 
@@ -136,6 +146,8 @@ const GetReward = () => {
           }
         );
 
+        
+        setIsLoading(false);
         // // Handle the response from the backend
         console.log(response.data + " ....this "); // This should contain user details and access token
       } catch (error) {
@@ -170,6 +182,7 @@ const GetReward = () => {
         // reward(address _cAd, uint256 _points,address _bAd)
         const transaction = await contract.joinBusiness(businessWalletAddress);
 
+        setIsLoading(true);
         //   // businessId , amount
         const txResponse = await transaction.wait();
         console.log("Transaction Response : ", txResponse.transactionHash);
@@ -189,6 +202,9 @@ const GetReward = () => {
             },
           }
         );
+
+        
+        setIsLoading(false);
 
         console.log(response.data);
       } catch (error) {
@@ -225,7 +241,9 @@ const GetReward = () => {
     try {
       const _points = ethers.utils.parseUnits("1", "18");
       const tx = await contract.transfer(burnAddress, _points); // Use the actual burn method and parameters
+      setIsLoading(true);
       await tx.wait();
+      setIsLoading(false);
       console.log('Tokens burned successfully');
     } catch (error) {
       console.error('Error burning tokens', error);
@@ -245,7 +263,8 @@ const GetReward = () => {
   // _id businessWalletAddress name tokenContractAddress
 
   return (
-    <div
+    <div>
+    { (products===null || isLoading===true) ? <Loader/> :<div
       className="w-screen h-screen 
      from-gray-900 to-gray-600 bg-gradient-to-b flex flex-col"
     >
@@ -307,6 +326,7 @@ const GetReward = () => {
           </motion.div>
         ))}
       </div>
+    </div>}
     </div>
   );
 };

@@ -3,10 +3,19 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import Loader from "./loader";
 function TransactionHistory() {
   const dispatch = useDispatch();
   const customer = useSelector((store) => store.customer);
-  
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading delay
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+
   const [response,setResponse] = useState(null);
   const getResponse = async () => {
 
@@ -31,7 +40,7 @@ function TransactionHistory() {
 
   return (
     <div>
-    {response && <div
+    {(response===null || isLoading===true ) ? <Loader/> : <div
       className="w-screen h-screen 
      from-gray-900 to-gray-600 bg-gradient-to-b flex flex-col"
     >

@@ -21,37 +21,44 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <div
-      className="w-screen h-screen  
-       flex   from-gray-900 to-gray-600 bg-gradient-to-b
-        "
+    //  from-gray-900 to-gray-600 bg-gradient-to-b
+     
+      className="w-screen h-screen  flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b"
     >
-      <div className="h-full w-[50%] flex justify-center items-center">
+      <div className="h-full w-[100%] flex justify-center items-center">
         <img
-          src="./images/home2.jpg"
-          className="w-[500px] rounded-lg shadow-yellow-200"
+          src="./images/home7.png"
+          className="w-[760px] rounded-lg shadow-yellow-200"
         />
       </div>
+      {/* <div className="h-full w-[50%] flex justify-center items-center">
+      <img
+          src="./images/home7.png"
+          className="w-[500px] rounded-lg shadow-yellow-200"
+        />
+      </div> */}
       <div className="flex justify-center items-center w-[50%]">
         <div className=" w-[400px] h-[300px]">
           <p
             className="text-center p-4
-           bg-green-700 text-white
-            text-[25px] font-serif"
+           bg-indigo-500 text-white
+            text-[25px] font-montserrat"
           >
-            Win Loyalty Points
+          <b>
+            {/* Win Loyalty Points */}
+            SparkRewards 💰💸💸
+            </b>
           </p>
-          <p className=" text-center text-[30px] font-thin mt-10 text-white ">
-            𝓈𝒾𝑔𝓃 𝒾𝓃 𝒶𝓈
+          <p className=" text-center text-[30px] font-montserrat mt-10 text-white ">
+            {/* 𝓈𝒾𝑔𝓃 𝒾𝓃 𝒶𝓈 */}
+            <b>Sign in as ❤️</b> 
           </p>
           <div className="flex flex-col  mt-16 gap-4">
             <button
               onClick={() => {
                 navigate("/businessHome");
               }}
-              className="px-8 
-            py-4 border-4 border-green-700 
-            hover:bg-green-700 
-            hover:text-white text-[20px] font-thin tracking-wider rounded-md text-white"
+              className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 border border-blue-700 rounded-full"
             >
               BUSINESS
             </button>
@@ -59,9 +66,7 @@ const Home = () => {
               onClick={() => {
                 navigate("/customerHome");
               }}
-              className="px-8 py-4 border-4 border-green-700
-             hover:bg-green-700 
-            hover:text-white text-[20px] font-thin tracking-wider rounded-md text-white"
+              className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 border border-blue-700 rounded-full"
             >
               CUSTOMER
             </button>

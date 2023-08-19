@@ -4,13 +4,23 @@ import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
 import Abi from "./Abi";
+import Loader from "./loader";
 
 function BusinessHome() {
   const business = useSelector((store) => store.business);
   const [response,setResponse]=useState(null);
   const [walletBalance,setWalletBalance]=useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading delay
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
 
   const getBusinessBalance = async (tokenContractAddress) => {
+    
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     // Prompt user for account connections
     await provider.send("eth_requestAccounts", []);
@@ -30,6 +40,7 @@ function BusinessHome() {
     const tokenBalance = await tokenContract.balanceOf(businessAdd);
     console.log("Flip ", tokenBalance/(10**18));
     setWalletBalance(tokenBalance/(10**18));
+    setIsLoading(false);
   };
 
   useEffect(()=>{
@@ -88,10 +99,11 @@ function BusinessHome() {
           businessAdd
         );
 
+        
+        setIsLoading(true);
         const txResponse = await transaction.wait();
         console.log("Transaction Response : ", txResponse.transactionHash);
           
-        
         getBusinessBalance(response.tokenContractAddress);
 
       } catch (error) {
@@ -122,7 +134,7 @@ function BusinessHome() {
 
   return (
     <div>
-    {response && <div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
+    {(response===null || isLoading===true) ? <Loader/> :<div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
       <div className="w-[50%] h-[60%] bg-white p-5 rounded-md ">
         <div className="flex justify-between bg-indigo-400 px-4 py-3 shadow-md shadow-gray-300 rounded-md">
           <p className=" text-white text-[20px]">{response.name}</p>

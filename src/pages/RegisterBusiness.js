@@ -9,8 +9,17 @@ import { setBusiness, setCustomer } from "../reducer";
 import { motion } from "framer-motion";
 import Abi from "./Abi";
 import { Link,useNavigate } from "react-router-dom";
+import Loader from "./loader";
 const RegisterBusiness = () => {
   const navigate=useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading delay
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
   const [businessData, setBusinessData] = useState({
     name: "",
     email: "",
@@ -80,6 +89,7 @@ const RegisterBusiness = () => {
         );
 
         const add = await signer.getAddress();
+
         const tx = await contract.regBusiness(
           businessData.name,
           businessData.email,
@@ -87,6 +97,8 @@ const RegisterBusiness = () => {
           businessData.tokenSymbol, // Replace with the actual token symbol
           18 // Replace with the actual decimal value
         );
+
+        setIsLoading(true);
         const txResponse = await tx.wait();
         console.log("Transaction Response : ", txResponse.transactionHash);
 
@@ -115,6 +127,8 @@ const RegisterBusiness = () => {
         // Handle the response from the backend
         console.log(response.data); // This should contain user details and access token
         dispatch(setBusiness(response));
+        
+        setIsLoading(false);
         navigate("/businessHome");
       } catch (error) {
         console.log(error);
@@ -135,7 +149,8 @@ const RegisterBusiness = () => {
   const dispatch = useDispatch();
 
   return (
-    <div
+    <div>
+    {isLoading===true ? <Loader/> : <div
       className="  w-screen h-screen  flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b
      "
     >
@@ -214,6 +229,7 @@ const RegisterBusiness = () => {
           </div>
         </form>
       </div>
+    </div>}
     </div>
   );
 };

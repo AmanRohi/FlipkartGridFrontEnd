@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import DonutChart from "./donutChart";
 import LineChart from "./barChart";
 import BarChart from "./barChart";
+import Loader from "./loader";
 function CustomerHome() {
   const navigate = useNavigate();
   const customer = useSelector((store) => store.customer);
@@ -14,10 +15,15 @@ function CustomerHome() {
   const [response,setResponse]=useState(null);
   
   const [businessess,setBusinessess]=useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const makeChart=()=>{
-    
-  }
+  useEffect(() => {
+    // Simulate a loading delay
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+
   const getResponse = async () => {
     const accessToken = customer.data.accessToken;
     
@@ -78,7 +84,7 @@ function CustomerHome() {
   return (
     // <div>Hello</div>
     <div>
-    {response && <div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
+    {response===null || isLoading===true ? <Loader/> : <div className="w-screen h-screen   flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b">
       <div className="w-[42%] h-[90%] bg-white p-5 rounded-md ">
         <div className="flex justify-between bg-indigo-400 px-4 py-3 shadow-md shadow-gray-300 rounded-md">
           <p className=" text-white text-[20px]">{response.firstName}</p>
