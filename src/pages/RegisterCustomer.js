@@ -160,7 +160,7 @@ const RegisterCustomer = () => {
           <input
             type="email"
             id="customerEmail"
-            placeholder="Enter your Customer Email"
+            placeholder="Enter your Email"
             value={customerData.userEmail}
             onChange={(e) =>
               setCustomerData({ ...customerData, userEmail: e.target.value })

@@ -108,6 +108,7 @@ const RegisterBusiness = () => {
             email,
             pwd: password,
             tokenContractAddress: ltAddress,
+            tokenSymbol:businessData.tokenSymbol
           }
         );
 

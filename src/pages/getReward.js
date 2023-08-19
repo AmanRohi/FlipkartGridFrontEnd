@@ -10,13 +10,13 @@ import Abi from "./Abi";
 const GetReward = () => {
   const [products, setProducts] = useState([]);
   const customer = useSelector((store) => store.customer);
-  const accessToken = customer.accessToken;
+  
   useEffect(() => {
     // Fetch product data from the backend
 
     const startUp = async () => {
       await axios
-        .get("https://flipkartbackend-un9n.onrender.com/getListOfBusiness")
+        .get("http://localhost:3000/getListOfBusiness")
         .then((response) => {
           setProducts(response.data);
         })
@@ -118,10 +118,11 @@ const GetReward = () => {
         // const userEmail=customerData.userEmail;
         // const firstName=customerData.firstName;
         // const lastName=customerData.lastName;
-
+          
+        const accessToken = customer.data.accessToken;
         // Send transaction hash and other data to your backend
         const response = await axios.post(
-          "https://flipkartbackend-un9n.onrender.com/getReward",
+          "http://localhost:3000/getReward",
           {
             signedTransaction: hash,
             businessId: productId,
@@ -136,7 +137,7 @@ const GetReward = () => {
         );
 
         // // Handle the response from the backend
-        console.log(response + " ....this "); // This should contain user details and access token
+        console.log(response.data + " ....this "); // This should contain user details and access token
       } catch (error) {
         console.log(error);
       }
@@ -175,8 +176,9 @@ const GetReward = () => {
 
         const hash = txResponse.transactionHash;
 
+        const accessToken = customer.data.accessToken;
         const response = await axios.post(
-          "https://flipkartbackend-un9n.onrender.com/joinBusiness",
+          "http://localhost:3000/joinBusiness",
           {
             signedTransaction: hash,
             businessId: productId,
@@ -507,10 +509,11 @@ const GetReward = () => {
         // const userEmail=customerData.userEmail;
         // const firstName=customerData.firstName;
         // const lastName=customerData.lastName;
-
+          
+        const accessToken = customer.data.accessToken;
         // Send transaction hash and other data to your backend
         const response = await axios.post(
-          "https://flipkartbackend-un9n.onrender.com/spend",
+          "http://localhost:3000/spend",
           {
             signedTransaction: hash,
             businessId: productId,

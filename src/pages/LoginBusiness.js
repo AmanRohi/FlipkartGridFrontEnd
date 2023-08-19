@@ -80,17 +80,7 @@ const LogInBusiness = () => {
         );
 
         const add = await signer.getAddress();
-        const tx = await contract.regBusiness(
-          businessData.name,
-          businessData.email,
-          add, // Sender's address
-          businessData.tokenSymbol, // Replace with the actual token symbol
-          18 // Replace with the actual decimal value
-        );
-        const txResponse = await tx.wait();
-        console.log("Transaction Response : ", txResponse.transactionHash);
 
-        const hash = txResponse.transactionHash;
         const ltAddress = await contract.getBusinessCoin(add);
         console.log("LT Address:", ltAddress);
 
@@ -102,12 +92,8 @@ const LogInBusiness = () => {
         const response = await axios.post(
           "https://flipkartbackend-un9n.onrender.com/loginBusiness",
           {
-            signedTransaction: hash,
             businessWalletAddress,
-            name,
-            email,
             pwd: password,
-            tokenContractAddress: ltAddress,
           }
         );
 

@@ -3,6 +3,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import DonutChart from "./donutChart";
+import LineChart from "./barChart";
+import BarChart from "./barChart";
 function CustomerHome() {
   const navigate = useNavigate();
   const customer = useSelector((store) => store.customer);
@@ -11,6 +14,10 @@ function CustomerHome() {
   const [response,setResponse]=useState(null);
   
   const [businessess,setBusinessess]=useState([]);
+
+  const makeChart=()=>{
+    
+  }
   const getResponse = async () => {
     const accessToken = customer.data.accessToken;
     
@@ -77,7 +84,10 @@ function CustomerHome() {
           <p className=" text-white text-[20px]">{response.firstName}</p>
           <p className=" text-white text-[20px]">{response.userEmail}</p>
         </div>
-
+        <div style={{ display:'flex',width: '200px', height: '300px' }}>
+          <DonutChart data={businessess}></DonutChart>
+          <BarChart data={businessess}></BarChart>
+        </div>
         <div className="mt-12 h-[60%]  p-2 ">
           <p className="bg-green-700 px-5 py-1 text-white w-max text-[20px] rounded-md shadow-md shadow-green-300">
             Loyalty Points
