@@ -1,6 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Loader from "./loader";
 const Home = () => {
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading delay
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 700);
+  }, []);
+
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
@@ -20,7 +31,8 @@ const Home = () => {
 
   const navigate = useNavigate();
   return (
-    <div
+    <div>
+    {isLoading===true ? <Loader/> : <div
     //  from-gray-900 to-gray-600 bg-gradient-to-b
      
       className="w-screen h-screen  flex justify-center items-center from-gray-900 to-gray-600 bg-gradient-to-b"
@@ -73,6 +85,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+    </div>}
     </div>
   );
 };
