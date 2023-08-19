@@ -36,9 +36,7 @@ const Home = () => {
       ) : (
         <div
           className="w-screen h-screen  
-       flex flex-col 
-
-        "
+       flex flex-col"
         >
           <div className="flex justify-between  w-full h-max px-6 py-8 items-center">
             <div className="flex items-center gap-2">

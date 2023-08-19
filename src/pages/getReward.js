@@ -252,10 +252,32 @@ const GetReward = () => {
       const _points = ethers.utils.parseUnits("1", "18");
       const tx = await contract.transfer(burnAddress, _points); // Use the actual burn method and parameters
       setIsLoading(true);
-      await tx.wait();
+      const trans=await tx.wait();
       setIsLoading(false);
+      
+      const accessToken = customer.data.accessToken;
+        // Send transaction hash and other data to your backend
+        const response = await axios.post(
+          "https://flipkartbackend-un9n.onrender.com/spend",
+          {
+            signedTransaction: trans.transactionHash,
+            businessId: productId,
+            amount: 1,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + accessToken,
+              // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRkNDY3M2M2ODliMzRkMzY5ZmRlZGYiLCJyb2xlIjoiQ3VzdG9tZXIiLCJpYXQiOjE2OTIyMjMwOTF9.1WFN8JJAVQUkwFVr4a1GA1HfhyGFMFLPIoJHhLdeMpY`, // Provide your access token
+            },
+          }
+        );
+
       console.log("Tokens burned successfully");
       toast.success("Successfully Spend Token");
+      
+
+
+
     } catch (error) {
       console.error("Error burning tokens", error);
       toast.error(error.message);
